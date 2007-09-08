@@ -1,0 +1,34 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.55.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 0857ca2744497f70ccd2905b092067df3932408c .cvsignore
+SHA1 1a8209bafe5ff53cdfc0f60297318ad352584b6b Build.PL
+SHA1 0784c0714c266f78eca646ee39adeee7a4db2b9e Changes
+SHA1 f7253b0832b2f41b1a4cda25fdd95dde6b23057d MANIFEST
+SHA1 29805831c09e62e36e02e0329406375d5937f563 META.yml
+SHA1 cd14ada78fb37a0d926edd86eddcdf7f939de582 Makefile.PL
+SHA1 2ab2f215d103f2c6f846f3652b924c243bd1a546 README
+SHA1 f3b7ba1108dbc83203f3e01f45ea85b9e17bba0b lib/Date/Darian/Mars.pm
+SHA1 086b5894e72260ef1f0d75f6045111f851d9626b t/y.t
+SHA1 bd51b66bb37ff753a2b342e58a92c1892c36ad61 t/yd.t
+SHA1 e76de073017670fe6c2b17cce7f3f3347485ea80 t/ymd.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.6 (GNU/Linux)
+
+iD8DBQFG4x/WOV9mt2VyAVERAp8FAKCk770HwD3kaSIF5aDnTjdy7hL01gCeKJSY
+bnImksaPMyvbbYmmQIiPFiQ=
+=Hi7d
+-----END PGP SIGNATURE-----

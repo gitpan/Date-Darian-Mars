@@ -1,4 +1,5 @@
 .cvsignore
+Build.PL
 Changes
 MANIFEST
 META.yml
@@ -8,3 +9,4 @@ lib/Date/Darian/Mars.pm
 t/y.t
 t/yd.t
 t/ymd.t
+SIGNATURE    Added here by Module::Build

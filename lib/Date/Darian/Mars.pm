@@ -97,7 +97,7 @@ use strict;
 
 use Carp qw(croak);
 
-our $VERSION = "0.000";
+our $VERSION = "0.001";
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(

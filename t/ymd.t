@@ -5,8 +5,8 @@ BEGIN {
 		qw(month_days cmsdn_to_ymd ymd_to_cmsdn present_ymd);
 }
 
-use Math::BigInt 1.16;
-use Math::BigRat 0.04;
+my $have_bigint = eval("use Math::BigInt 1.16; 1");
+my $have_bigrat = eval("use Math::BigRat 0.04; 1");
 
 sub match_val($$) {
 	my($a, $b) = @_;
@@ -32,15 +32,17 @@ sub match_vec($$) {
 
 my @prep = (
 	sub { $_[0] },
-	sub { Math::BigInt->new($_[0]) },
-	sub { Math::BigRat->new($_[0]) },
+	sub { $have_bigint ? Math::BigInt->new($_[0]) : undef },
+	sub { $have_bigrat ? Math::BigRat->new($_[0]) : undef },
 );
 
 sub check_days($$$) {
 	my($y, $m, $md) = @_;
-	foreach my $prep (@prep) {
-		match_val month_days($prep->($y), $m), $md;
-	}
+	foreach my $prep (@prep) { SKIP: {
+		my $py = $prep->($y);
+		skip "numeric type unavailable", 1 unless defined $py;
+		match_val month_days($py, $m), $md;
+	} }
 }
 
 check_days(-2000, 24, 28);
@@ -76,12 +78,13 @@ like $@, qr/\Aday number /;
 
 sub check_conv($$$$) {
 	my($cmsdn, $y, $m, $d) = @_;
-	foreach my $prep (@prep) {
+	foreach my $prep (@prep) { SKIP: {
+		skip "numeric type unavailable", 2 unless defined $prep->(0);
 		match_vec [ cmsdn_to_ymd($prep->($cmsdn)) ],
 			[ $prep->($y), $m, $d ];
 		match_vec [ $prep->($cmsdn) ],
 			[ ymd_to_cmsdn($prep->($y), $m, $d) ];
-	}
+	} }
 }
 
 check_conv(0, -608, 23, 20);
