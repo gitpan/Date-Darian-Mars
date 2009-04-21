@@ -11,20 +11,20 @@ Date::Darian::Mars - the Darian calendar for Mars
 	use Date::Darian::Mars
 		qw(month_days cmsdn_to_ymd ymd_to_cmsdn present_ymd);
 
-	$md = month_days(2000, 2);
-	($y, $m, $d) = cmsdn_to_ymd(2406029);
-	$cmsdn = ymd_to_cmsdn(1875, 5, 20);
-	print present_ymd(2406029);
-	print present_ymd(1875, 5, 20);
+	$md = month_days(209, 23);
+	($y, $m, $d) = cmsdn_to_ymd(546236);
+	$cmsdn = ymd_to_cmsdn(209, 23, 18);
+	print present_ymd(546236);
+	print present_ymd(209, 23, 18);
 
 	use Date::Darian::Mars
 		qw(year_days cmsdn_to_yd yd_to_cmsdn present_yd);
 
-	$yd = year_days(2000);
-	($y, $d) = cmsdn_to_yd(2406029);
-	$cmsdn = yd_to_cmsdn(1875, 140);
-	print present_yd(2406029);
-	print present_yd(1875, 140);
+	$yd = year_days(209);
+	($y, $d) = cmsdn_to_yd(546236);
+	$cmsdn = yd_to_cmsdn(209, 631);
+	print present_yd(546236);
+	print present_yd(209, 631);
 
 =head1 DESCRIPTION
 
@@ -97,28 +97,28 @@ use strict;
 
 use Carp qw(croak);
 
-our $VERSION = "0.001";
+our $VERSION = "0.002";
 
-use base qw(Exporter);
+use parent "Exporter";
 our @EXPORT_OK = qw(
 	present_y
 	month_days cmsdn_to_ymd ymd_to_cmsdn present_ymd
 	year_days cmsdn_to_yd yd_to_cmsdn present_yd
 );
 
-# numify(A): turn possibly-object number into native Perl integer
+# _numify(A): turn possibly-object number into native Perl integer
 
-sub numify($) {
+sub _numify($) {
 	my($a) = @_;
 	return ref($a) eq "" ? $a : $a->numify;
 }
 
-# fdiv(A, B): divide A by B, flooring remainder
+# _fdiv(A, B): divide A by B, flooring remainder
 #
 # B must be a positive Perl integer.  A may be a Perl integer, Math::BigInt,
 # or Math::BigRat.  The result has the same type as A.
 
-sub fdiv($$) {
+sub _fdiv($$) {
 	my($a, $b) = @_;
 	if(ref($a) eq "Math::BigRat") {
 		return ($a / $b)->bfloor;
@@ -133,12 +133,12 @@ sub fdiv($$) {
 	}
 }
 
-# fmod(A, B): A modulo B, flooring remainder
+# _fmod(A, B): A modulo B, flooring remainder
 #
 # B must be a positive Perl integer.  A may be a Perl integer, Math::BigInt,
 # or Math::BigRat.  The result has the same type as A.
 
-sub fmod($$) {
+sub _fmod($$) {
 	my($a, $b) = @_;
 	if(ref($a) eq "Math::BigRat") {
 		return $a - $b * ($a / $b)->bfloor;
@@ -178,7 +178,7 @@ five digits for all year numbers, then the right tool is C<sprintf>
 
 sub present_y($) {
 	my($y) = @_;
-	my($sign, $digits) = ("$y" =~ /\A\+?(-?)0*(\d+?)\z/);
+	my($sign, $digits) = ("$y" =~ /\A\+?(-?)0*([0-9]+?)\z/);
 	$digits = ("0" x (4 - length($digits))).$digits
 		unless length($digits) >= 4;
 	$sign = "+" if $sign eq "" && length($digits) > 4;
@@ -202,11 +202,11 @@ days in that month as a native Perl integer.
 
 =cut
 
-sub year_leap($) {
+sub _year_leap($) {
 	my($y) = @_;
-	return fmod($y, 2) == 1 ||
-		(fmod($y, 10) == 0 &&
-			(fmod($y, 100) != 0 || fmod($y, 500) == 0));
+	return _fmod($y, 2) == 1 ||
+		(_fmod($y, 10) == 0 &&
+			(_fmod($y, 100) != 0 || _fmod($y, 500) == 0));
 }
 
 {
@@ -215,9 +215,9 @@ sub year_leap($) {
 		croak "month number $m is out of the range [1, 24]"
 			unless $m >= 1 && $m <= 24;
 		if($m == 24) {
-			return year_leap($y) ? 28 : 27;
+			return _year_leap($y) ? 28 : 27;
 		} else {
-			return fmod($m, 6) == 0 ? 27 : 28;
+			return _fmod($m, 6) == 0 ? 27 : 28;
 		}
 	}
 }
@@ -236,10 +236,10 @@ sub cmsdn_to_ymd($) {
 	my($y, $d) = cmsdn_to_yd($cmsdn);
 	return ($y, 24, 28) if $d == 669;
 	$d--;
-	my $sixm = fdiv($d, 28*6 - 1);
+	my $sixm = _fdiv($d, 28*6 - 1);
 	$d -= $sixm * (28*6 - 1);
-	my $m = fdiv($d, 28);
-	return ($y, 1 + 6*$sixm + $m, 1 + fmod($d, 28));
+	my $m = _fdiv($d, 28);
+	return ($y, 1 + 6*$sixm + $m, 1 + _fmod($d, 28));
 }
 
 =item ymd_to_cmsdn(YEAR, MONTH, DAY)
@@ -256,11 +256,11 @@ sub ymd_to_cmsdn($$$) {
 	my($y, $m, $d) = @_;
 	croak "month number $m is out of the range [1, 24]"
 		unless $m >= 1 && $m <= 24;
-	$m = numify($m);
+	$m = _numify($m);
 	my $md = month_days($y, $m);
 	croak "day number $d is out of the range [1, $md]"
 		unless $d >= 1 && $d <= $md;
-	return yd_to_cmsdn($y, ($m - 1) * 28 - fdiv($m - 1, 6) + numify($d));
+	return yd_to_cmsdn($y, ($m - 1) * 28 - _fdiv($m - 1, 6) + _numify($d));
 }
 
 =item present_ymd(CMSDN)
@@ -287,7 +287,8 @@ sub present_ymd($;$$) {
 		croak "day number $d is out of the displayable range"
 			unless $d >= 0 && $d < 100;
 	}
-	return sprintf("%s-%02d-%02d", present_y($y), numify($m), numify($d));
+	return sprintf("%s-%02d-%02d", present_y($y),
+		_numify($m), _numify($d));
 }
 
 =back
@@ -309,7 +310,7 @@ days in that year as a native Perl integer.
 
 sub year_days($) {
 	my($y) = @_;
-	return year_leap($y) ? 669 : 668;
+	return _year_leap($y) ? 669 : 668;
 }
 
 use constant DARIAN_ZERO_CMSDN => 405871;   # 0000-001
@@ -325,8 +326,8 @@ sub cmsdn_to_yd($) {
 	my($cmsdn) = @_;
 	use integer;
 	my $d = $cmsdn - DARIAN_ZERO_CMSDN;
-	my $qcents = fdiv($d, 668*500 + 296);
-	$d = numify($d - $qcents * (668*500 + 296));
+	my $qcents = _fdiv($d, 668*500 + 296);
+	$d = _numify($d - $qcents * (668*500 + 296));
 	my $y = $d / 669;
 	my $leaps = ($y / 2) + ($y+9) / 10 - ($y+99) / 100 + ($y == 0 ? 0 : 1);
 	$d -= 668 * $y + $leaps;
@@ -349,12 +350,12 @@ CMSDN.
 sub yd_to_cmsdn($$) {
 	my($y, $d) = @_;
 	use integer;
-	my $qcents = fdiv($y, 500);
-	$y = numify($y - $qcents * 500);
+	my $qcents = _fdiv($y, 500);
+	$y = _numify($y - $qcents * 500);
 	my $yd = year_days($y);
 	croak "day number $d is out of the range [1, $yd]"
 		unless $d >= 1 && $d <= $yd;
-	$d = numify($d);
+	$d = _numify($d);
 	my $leaps = ($y / 2) + ($y+9) / 10 - ($y+99) / 100 + ($y == 0 ? 0 : 1);
 	return (DARIAN_ZERO_CMSDN + 668*$y + $leaps + ($d - 1)) +
 		$qcents * (668*500 + 296);
@@ -383,7 +384,7 @@ sub present_yd($;$) {
 		croak "day number $d is out of the displayable range"
 			unless $d >= 0 && $d < 1000;
 	}
-	return sprintf("%s-%03d", present_y($y), numify($d));
+	return sprintf("%s-%03d", present_y($y), _numify($d));
 }
 
 =back
@@ -400,7 +401,9 @@ Andrew Main (Zefram) <zefram@fysh.org>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2007 Andrew Main (Zefram) <zefram@fysh.org>
+Copyright (C) 2007, 2009 Andrew Main (Zefram) <zefram@fysh.org>
+
+=head1 LICENSE
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

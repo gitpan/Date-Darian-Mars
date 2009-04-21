@@ -1,6 +1,6 @@
 ---
 name: Date-Darian-Mars
-version: 0.001
+version: 0.002
 author:
   - 'Andrew Main (Zefram) <zefram@fysh.org>'
 abstract: the Darian calendar for Mars
@@ -10,8 +10,9 @@ resources:
 requires:
   Carp: 0
   Exporter: 0
-  base: 0
   constant: 0
+  integer: 0
+  parent: 0
   perl: 5.006
   strict: 0
   warnings: 0
@@ -28,8 +29,9 @@ dynamic_config: 0
 provides:
   Date::Darian::Mars:
     file: lib/Date/Darian/Mars.pm
-    version: 0.001
-generated_by: Module::Build version 0.2808
+    version: 0.002
+generated_by: Module::Build version 0.31012
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html
   version: 1.2
+distribution_type: module

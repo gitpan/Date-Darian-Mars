@@ -6,6 +6,8 @@ META.yml
 Makefile.PL
 README
 lib/Date/Darian/Mars.pm
+t/pod_cvg.t
+t/pod_syn.t
 t/y.t
 t/yd.t
 t/ymd.t
