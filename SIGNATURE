@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.55.
+signed via the Module::Signature module, version 0.66.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,23 +14,24 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 73de5e92848dccffbb0867774c71764ee8013741 .cvsignore
-SHA1 0fcfd8238fccc638ff808047fa0822947e9889e2 Build.PL
-SHA1 6ee56f8a3fb826e8ef8e6c9d287449192eda7e26 Changes
-SHA1 f1000d0ad0ae196636d6e8513cb36b52b4190c08 MANIFEST
-SHA1 da6b985bb055ec6b1cda3c664d6c1834375bf23d META.yml
-SHA1 f39315b8e83202006e8a916c6a58725d104f75ec Makefile.PL
-SHA1 13d5ac79cbaa7b91b4f5c08778bf7a3b0aa6ac44 README
-SHA1 c86d2f5a4bd36b30c85b45aff68aa048f021164e lib/Date/Darian/Mars.pm
-SHA1 0e141eecf3ca4903ef38d9413b5403a9ddb0392f t/pod_cvg.t
-SHA1 74a957cd8b93f25672ecc6aa578a671d084dd343 t/pod_syn.t
-SHA1 086b5894e72260ef1f0d75f6045111f851d9626b t/y.t
-SHA1 bd51b66bb37ff753a2b342e58a92c1892c36ad61 t/yd.t
-SHA1 e76de073017670fe6c2b17cce7f3f3347485ea80 t/ymd.t
+SHA1 90be75c934cb6c2e5a48d2442c14dbe2e6abaf16 .cvsignore
+SHA1 32779d1882014031a5b197ac5b5c45bc8c255bc4 Build.PL
+SHA1 c4bd5b2a58f82aae179338069db33e99359bad52 Changes
+SHA1 e26cc984acc177f221ff8a9f2c8d666a42625c5a MANIFEST
+SHA1 44e4cb2c3baf9df1adf10a32f3e5ae8de548b91e META.json
+SHA1 8de0648e2768245006563666f3a6e184a0425f55 META.yml
+SHA1 a4df8e97ccd390a42212af5a9f4d0986c85e7a5f Makefile.PL
+SHA1 29fafc13a97eeafe87e192c42342f8fc83f6f0d1 README
+SHA1 c2af1070591c8f054e89778afd7aed2586f2fb90 lib/Date/Darian/Mars.pm
+SHA1 904d9a4f76525e2303e4b0c168c68230f223c8de t/pod_cvg.t
+SHA1 65c75abdef6f01a5d1588a307f2ddfe2333dc961 t/pod_syn.t
+SHA1 a99514af715c7cd6139e8ac2aa2ad75400260ca4 t/y.t
+SHA1 e1928af9f51f5fd749b5407f46034a0c888caae0 t/yd.t
+SHA1 fc003b00a78e489da38d8c9a47fb0198e58da29b t/ymd.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
+Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAkntD1QACgkQOV9mt2VyAVFbkACfd3fEnR9oe5IrsqFA8itn+rks
-I9AAoJoqxV4/AMsYc7hPgSV5FPJM/fcV
-=S8xE
+iEYEARECAAYFAk2gfMUACgkQOV9mt2VyAVHrqACfYCT9Lgf+PqlUMeVLqhfO621b
+o54AoKMxKLGYJq489h3uL2f2BDO8pKvf
+=Z/o+
 -----END PGP SIGNATURE-----

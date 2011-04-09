@@ -92,12 +92,13 @@ Planum was 0209-23-18 or 0209-631 in the Darian calendar, and CMSDN
 
 package Date::Darian::Mars;
 
+{ use 5.006; }
 use warnings;
 use strict;
 
 use Carp qw(croak);
 
-our $VERSION = "0.002";
+our $VERSION = "0.003";
 
 use parent "Exporter";
 our @EXPORT_OK = qw(
@@ -401,7 +402,7 @@ Andrew Main (Zefram) <zefram@fysh.org>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2007, 2009 Andrew Main (Zefram) <zefram@fysh.org>
+Copyright (C) 2007, 2009, 2011 Andrew Main (Zefram) <zefram@fysh.org>
 
 =head1 LICENSE
 
